@@ -24,5 +24,8 @@ exports.createOrUpdateTransaction = (req, res, next) => {
     .then(transaction => {
         res.json(transaction)
     })
-    .catch(next)
+    .catch(erro => {
+        console.log(erro)
+        next(erro)
+    })
 }
