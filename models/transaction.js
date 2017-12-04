@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test', { useMongoClient: true });
+const { dataBaseConfig } = require('../config/databaseConfig')
+
+const dbConfig = dataBaseConfig()
+mongoose.connect(dbConfig.url , { useMongoClient: true });
 mongoose.Promise = require('bluebird')
 
 const Schema = mongoose.Schema
