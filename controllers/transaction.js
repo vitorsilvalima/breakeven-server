@@ -1,4 +1,4 @@
-const { transactionModel } = require('../models/transaction')
+const { transactionModel } = require('./../models/transaction')
 
 const createOrUpdateTransaction = (tid, transaction) => transactionModel.findOneAndUpdate(
     { tid },
@@ -11,7 +11,9 @@ const createOrUpdateTransaction = (tid, transaction) => transactionModel.findOne
 
 exports.getAllTransaction = (req, res, next) => {
     transactionModel.find({})
-    .then(transactions => res.json(transactions))
+    .then(transactions => {
+        res.json(transactions)
+    })
     .catch(next)
 }
 

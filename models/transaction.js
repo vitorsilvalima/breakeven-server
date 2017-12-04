@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
-const { dataBaseConfig } = require('../config/databaseConfig')
+const bluebird = require('bluebird');
+const { dataBaseConfig } = require('./../config/databaseConfig')
 
+mongoose.Promise = bluebird
 const dbConfig = dataBaseConfig()
-mongoose.connect(dbConfig.url , { useMongoClient: true });
-mongoose.Promise = require('bluebird')
+console.log(dbConfig)
+mongoose.connect(dbConfig.url, { useMongoClient: true })
+
+const _db = mongoose.connection;
+_db.on('error', console.error.bind(console, 'connection error:'));
+
+_db.once('open', () => {
+    console.log('The database of login microservice application is running');
+});
 
 const Schema = mongoose.Schema
 
@@ -120,5 +129,8 @@ const transactionSchema = new Schema({
     "reference_key": String
 })
 
-exports.transactionModel = mongoose.model('transaction', transactionSchema)
+const transactionModel = mongoose.model('transaction', transactionSchema)
 
+module.exports = {
+    transactionModel
+}
